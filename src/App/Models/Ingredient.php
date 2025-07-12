@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-class Ingredient
+use JsonSerializable;
+
+class Ingredient implements JsonSerializable
 {
     private $id;
     private $name;
@@ -15,5 +17,13 @@ class Ingredient
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+        ];
     }
 }

@@ -12,6 +12,9 @@
     }
   ],
   "require": {
-    "symfony/var-dumper": "^7.3"
+    "symfony/var-dumper": "^7.3",
+    "slim/slim": "^4.14",
+    "slim/psr7": "^1.7",
+    "middlewares/trailing-slash": "^2.1"
   }
 }

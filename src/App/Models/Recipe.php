@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-class Recipe
+use JsonSerializable;
+
+class Recipe implements JsonSerializable
 {
     private $id;
     private $name;
@@ -65,5 +67,17 @@ class Recipe
     public function setDifficulty(int $difficulty): void
     {
         $this->difficulty = $difficulty;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'duration' => $this->duration,
+            'difficulty' => $this->difficulty,
+            'ingredients' => $this->ingredients,
+        ];
     }
 }
