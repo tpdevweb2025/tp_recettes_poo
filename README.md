@@ -20,7 +20,7 @@ composer install
 
 ### Étape 3 : Installer les données SQL
 
-Importez les données SQL dans votre base de données en éxécutant les instructions contenues dans le fichier `data/save.sql`
+Importez les données SQL dans votre base de données en éxécutant les instructions contenues dans le fichier `data/tp_recettes.sql`
 
 ### Étape 4 : Configurer l'environnement
 
