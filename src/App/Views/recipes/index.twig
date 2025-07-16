@@ -1,0 +1,17 @@
+{% extends "base.twig" %}
+
+{% block title %}Liste des recettes{% endblock %}
+{% block head %}
+{{ parent() }}
+
+{% endblock %}
+{% block content %}
+
+<h1>Liste des recettes</h1>
+<ul>
+    {% for recipe in recipes %}
+    <li><a href="/recipes/{{ recipe.id }}">{{ recipe.name }}</a> <span>{{ recipe.description|raw }}</span></li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

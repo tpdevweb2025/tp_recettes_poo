@@ -33,4 +33,10 @@ class IngredientRepository
 
         return $ingredient;
     }
+
+    public static function store(Ingredient $ingredient)
+    {
+        $req = DataBase::getConnection()->prepare('INSERT INTO ingredients (name) VALUES (?)');
+        $req->execute([$ingredient->getName()]);
+    }
 }

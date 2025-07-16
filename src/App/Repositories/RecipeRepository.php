@@ -16,7 +16,7 @@ class RecipeRepository
 
         return array_map(function (Recipe $recipe) {
             foreach (self::getIngredients($recipe) as $ingredient):
-                $recipe->addIngredient($ingredient->name, $ingredient->quantity, $ingredient->unity);
+                $recipe->addIngredient($ingredient->id, $ingredient->name, $ingredient->quantity, $ingredient->unity);
             endforeach;
             return $recipe;
         }, $recipes);
@@ -29,7 +29,7 @@ class RecipeRepository
         $req->setFetchMode(PDO::FETCH_CLASS, Recipe::class);
         $recipe = $req->fetch();
         foreach (self::getIngredients($recipe) as $ingredient):
-            $recipe->addIngredient($ingredient->name, $ingredient->quantity, $ingredient->unity);
+            $recipe->addIngredient($ingredient->id, $ingredient->name, $ingredient->quantity, $ingredient->unity);
         endforeach;
 
         return $recipe;
@@ -41,12 +41,20 @@ class RecipeRepository
         $req->setFetchMode(PDO::FETCH_CLASS, Recipe::class);
         $recipe = $req->fetch();
         foreach (self::getIngredients($recipe) as $ingredient):
-            $recipe->addIngredient($ingredient->name, $ingredient->quantity, $ingredient->unity);
+            $recipe->addIngredient($ingredient->id, $ingredient->name, $ingredient->quantity, $ingredient->unity);
         endforeach;
 
         return $recipe;
     }
 
+    public static function getRecipesByIngredientId($ingredient)
+    {
+        $req = DataBase::getConnection()->prepare('SELECT recipes.* FROM recipes JOIN ingredients_recipes ON recipes.id = ingredients_recipes.recipe_id WHERE ingredients_recipes.ingredient_id = :id');
+        $req->execute(['id' => $ingredient]);
+        $recipes = $req->fetchAll(PDO::FETCH_CLASS, 'App\Models\Recipe');
+
+        return $recipes;
+    }
     public static function getRecipesByIngredient($ingredient)
     {
         $req = DataBase::getConnection()->prepare('SELECT recipes.* FROM recipes JOIN ingredients_recipes ON recipes.id = ingredients_recipes.recipe_id JOIN ingredients ON ingredients.id = ingredients_recipes.ingredient_id WHERE ingredients.name LIKE :name');
@@ -55,7 +63,7 @@ class RecipeRepository
 
         return array_map(function (Recipe $recipe) {
             foreach (self::getIngredients($recipe) as $ingredient):
-                $recipe->addIngredient($ingredient->name, $ingredient->quantity, $ingredient->unity);
+                $recipe->addIngredient($ingredient->id, $ingredient->name, $ingredient->quantity, $ingredient->unity);
             endforeach;
             return $recipe;
         }, $recipes);
@@ -69,15 +77,26 @@ class RecipeRepository
 
         return array_map(function (Recipe $recipe) {
             foreach (self::getIngredients($recipe) as $ingredient):
-                $recipe->addIngredient($ingredient->name, $ingredient->quantity, $ingredient->unity);
+                $recipe->addIngredient($ingredient->id, $ingredient->name, $ingredient->quantity, $ingredient->unity);
             endforeach;
             return $recipe;
         }, $recipes);
     }
 
+    public static function store(Recipe $recipe)
+    {
+        $req = DataBase::getConnection()->prepare('INSERT INTO recipes (name, description, duration, difficulty) VALUES (:name, :description, :duration, :difficulty)');
+        $req->execute([
+            'name' => $recipe->getName(),
+            'description' => $recipe->getDescription(),
+            'duration' => $recipe->getDuration(),
+            'difficulty' => $recipe->getDifficulty()
+        ]);
+    }
+
     private static function getIngredients(Recipe $recipe)
     {
-        $req = DataBase::getConnection()->prepare('SELECT ingredients.name, ingredients_recipes.quantity, ingredients_recipes.unity FROM ingredients_recipes JOIN ingredients ON ingredients.id = ingredients_recipes.ingredient_id WHERE ingredients_recipes.recipe_id = :id');
+        $req = DataBase::getConnection()->prepare('SELECT ingredients.id, ingredients.name, ingredients_recipes.quantity, ingredients_recipes.unity FROM ingredients_recipes JOIN ingredients ON ingredients.id = ingredients_recipes.ingredient_id WHERE ingredients_recipes.recipe_id = :id');
         $req->execute(['id' => $recipe->getId()]);
         return $req->fetchAll(PDO::FETCH_OBJ);
     }

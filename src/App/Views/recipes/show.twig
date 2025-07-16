@@ -1,0 +1,27 @@
+{% extends "base.twig" %}
+
+{% block title %}{{ recipe.name|capitalize }}{% endblock %}
+{% block head %}
+{{ parent() }}
+
+{% endblock %}
+{% block content %}
+
+<h1>Recette : {{ recipe.name }}</h1>
+<div>
+    <div class="back">
+        <a class="btn" href="/recipes" class="button">Retour</a>
+    </div>
+    <p>{{ recipe.description|raw }}</p>
+    <p>Durée : <strong>{{ recipe.duration }} minutes</strong></p>
+    <p>Difficulté : <strong>{{ recipe.difficulty|capitalize }}</strong></p>
+    <p>Ingrédients :</p>
+    <ul>
+        {% for ingredient in recipe.ingredients %}
+        <li><a href="/ingredients/{{ ingredient.id }}">{{ ingredient.ingredient }}</a> ({{
+            ingredient.quantity }} {{ ingredient.unit }})</li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

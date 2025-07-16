@@ -19,6 +19,11 @@ class Ingredient implements JsonSerializable
         return $this->name;
     }
 
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
     public function jsonSerialize(): array
     {
         return [

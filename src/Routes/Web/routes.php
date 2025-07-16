@@ -1,9 +1,10 @@
 <?php
 
-use Slim\Psr7\Request;
-use Slim\Psr7\Response;
+use Slim\Views\Twig;
+use Slim\Views\TwigMiddleware;
 
-$app->get("/", function (Request $request, Response $response) {
-    $response->getBody()->write("Hello World");
-    return $response->withStatus(200);
-});
+$twig = Twig::create(__DIR__ . '/../../App/Views', ['cache' => false]);
+$app->add(TwigMiddleware::create($app, $twig));
+
+require "recipes.php";
+require "ingredients.php";

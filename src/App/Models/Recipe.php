@@ -30,13 +30,19 @@ class Recipe implements JsonSerializable
         $this->name = $name;
     }
 
-    public function addIngredient(string $ingredient, int $quantity, string $unit): void
+    public function addIngredient(int $id, string $ingredient, int $quantity, string $unit): void
     {
         $this->ingredients[] = [
+            'id' => $id,
             'ingredient' => $ingredient,
             'quantity' => $quantity,
             'unit' => $unit,
         ];
+    }
+
+    public function getIngredients(): array
+    {
+        return $this->ingredients;
     }
 
     public function getDescription(): string
@@ -49,7 +55,7 @@ class Recipe implements JsonSerializable
         return $this->duration;
     }
 
-    public function getDifficulty(): int
+    public function getDifficulty(): string
     {
         return $this->difficulty;
     }
@@ -64,7 +70,7 @@ class Recipe implements JsonSerializable
         $this->duration = $duration;
     }
 
-    public function setDifficulty(int $difficulty): void
+    public function setDifficulty($difficulty): void
     {
         $this->difficulty = $difficulty;
     }

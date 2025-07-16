@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% block head %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+    <title>{% block title %}{% endblock %} - TP recettes</title>
+    {% endblock %}
+    <style>
+        main {
+            padding: 1rem;
+        }
+
+        .back {
+            margin: 2rem 0;
+        }
+
+        #footer {
+            padding-top: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="container">
+            <div>
+                {% block content %}{% endblock %}
+            </div>
+            <div id="footer">
+                <hr>
+                {% block footer %}
+                &copy; Copyright 2025 by <a href="https://example.com/">anthowd</a>.
+                {% endblock %}
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>

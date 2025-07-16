@@ -15,6 +15,7 @@
     "symfony/var-dumper": "^7.3",
     "slim/slim": "^4.14",
     "slim/psr7": "^1.7",
-    "middlewares/trailing-slash": "^2.1"
+    "middlewares/trailing-slash": "^2.1",
+    "slim/twig-view": "^3.4"
   }
 }
